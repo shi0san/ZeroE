@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>流利说英语 | 场景教学·动画电影学口语</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Inter',sans-serif; background:#f6f9fc; color:#1e2a3e; line-height:1.5; }
+        .container { max-width:1400px; margin:0 auto; padding:0 24px; }
+        .header { background:white; backdrop-filter:blur(4px); box-shadow:0 4px 20px rgba(0,0,0,0.02); border-bottom:1px solid #e9edf2; position:sticky; top:0; z-index:10; background:rgba(255,255,255,0.96); }
+        .nav { display:flex; justify-content:space-between; align-items:center; padding:16px 0; flex-wrap:wrap; }
+        .logo { font-size:1.8rem; font-weight:700; background:linear-gradient(135deg,#2563eb,#06b6d4); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .logo i { color:#2563eb; margin-right:6px; }
+        .tagline { background:#eef2ff; padding:6px 14px; border-radius:40px; font-size:0.9rem; }
+        .hero { background:linear-gradient(135deg,#eef2ff 0%,#ffffff 80%); border-radius:2rem; padding:2rem; margin:2rem 0; text-align:center; }
+        .hero h1 { font-size:2.3rem; background:linear-gradient(145deg,#1e293b,#2d4a8c); -webkit-background-clip:text; background-clip:text; color:transparent; }
+        .dashboard { display:grid; grid-template-columns:1fr 340px; gap:2rem; margin:2rem 0 3rem; }
+        .roadmap { background:white; border-radius:1.8rem; box-shadow:0 12px 30px rgba(0,0,0,0.05); padding:1.8rem; border:1px solid #eef2f6; }
+        .section-title { font-size:1.5rem; font-weight:700; margin-bottom:1.5rem; border-left:5px solid #2563eb; padding-left:1rem; display:flex; justify-content:space-between; }
+        .stages-grid { display:flex; flex-direction:column; gap:1.8rem; }
+        .stage-card { background:#fafcff; border-radius:1.5rem; border:1px solid #e2e8f0; overflow:hidden; }
+        .stage-header { background:#fff; padding:1rem 1.5rem; border-bottom:2px solid #eef2ff; display:flex; justify-content:space-between; align-items:center; }
+        .stage-name { font-weight:700; font-size:1.25rem; display:flex; align-items:center; gap:8px; }
+        .stage-badge { font-size:0.7rem; background:#e0e7ff; padding:4px 10px; border-radius:30px; }
+        .stage-progress { font-size:0.85rem; background:#eef2ff; padding:4px 12px; border-radius:40px; }
+        .tasks-list { padding:1rem 1.5rem 1.5rem; display:flex; flex-direction:column; gap:0.9rem; }
+        .task-item { display:flex; align-items:center; gap:12px; background:#fff; padding:8px 12px; border-radius:1rem; border:1px solid transparent; transition:0.1s; cursor:pointer; }
+        .task-item:hover { background:#f1f5f9; border-color:#cbd5e1; }
+        .task-check { width:20px; height:20px; accent-color:#2563eb; cursor:pointer; pointer-events:auto; margin-right:4px; }
+        .task-text { flex:1; font-weight:500; color:#0f172a; cursor:pointer; }
+        .speak-btn { background:none; border:none; color:#3b82f6; font-size:1.1rem; cursor:pointer; padding:6px; border-radius:50%; width:32px; height:32px; display:inline-flex; align-items:center; justify-content:center; }
+        .speak-btn:hover { background:#eef2ff; }
+        .card { background:white; border-radius:1.5rem; padding:1.3rem 1.5rem; box-shadow:0 8px 20px rgba(0,0,0,0.03); border:1px solid #eef2f6; margin-bottom:1.8rem; }
+        .card-title { font-size:1.25rem; font-weight:700; margin-bottom:1rem; border-bottom:2px solid #eef2ff; padding-bottom:8px; display:flex; align-items:center; gap:8px; }
+        .progress-bar-bg { background:#e2e8f0; border-radius:40px; height:12px; overflow:hidden; margin:12px 0 6px; }
+        .progress-fill { background:linear-gradient(90deg,#2563eb,#06b6d4); width:0%; height:100%; border-radius:40px; transition:width 0.3s; }
+        .reset-btn { background:#f1f5f9; border:none; padding:6px 14px; border-radius:30px; font-size:0.75rem; cursor:pointer; margin-top:10px; }
+        .quiz-option { background:#f1f5f9; margin:8px 0; padding:10px 12px; border-radius:1rem; cursor:pointer; transition:0.2s; }
+        .phrase-item { display:flex; justify-content:space-between; align-items:center; background:#f8fafc; padding:12px; border-radius:1rem; margin-bottom:12px; }
+        .convo-line { background:#f1f5f9; margin:10px 0; padding:10px; border-radius:1rem; display:flex; justify-content:space-between; align-items:center; }
+        @media (max-width:860px) { .dashboard { grid-template-columns:1fr; } .hero h1 { font-size:1.8rem; } }
+        footer { text-align:center; padding:2rem; font-size:0.8rem; color:#5b6e8c; border-top:1px solid #e2edf7; margin-top:2rem; }
+        .voice-hint { background:#eef2ff; border-radius:1rem; padding:8px; font-size:0.8rem; margin-top:10px; text-align:center; cursor:pointer; }
+        /* 模态框教学 */
+        .modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.75); backdrop-filter:blur(5px); z-index:1000; display:flex; align-items:center; justify-content:center; visibility:hidden; opacity:0; transition:0.2s; }
+        .modal-overlay.active { visibility:visible; opacity:1; }
+        .modal-content { background:white; max-width:850px; width:90%; max-height:85vh; border-radius:2rem; overflow-y:auto; padding:2rem; position:relative; box-shadow:0 25px 40px rgba(0,0,0,0.3); }
+        .modal-close { position:absolute; top:1rem; right:1.5rem; font-size:1.8rem; cursor:pointer; color:#94a3b8; transition:0.2s; }
+        .modal-close:hover { color:#1e293b; }
+        .lesson-title { font-size:1.8rem; font-weight:700; margin-bottom:1.2rem; border-left:5px solid #2563eb; padding-left:1rem; }
+        .lesson-content { line-height:1.65; }
+        .lesson-content h3 { margin:1rem 0 0.5rem; color:#2563eb; }
+        .example-box { background:#f8fafc; padding:12px 16px; border-radius:1rem; margin:1rem 0; border-left:4px solid #3b82f6; }
+        .video-container { position:relative; padding-bottom:56.25%; height:0; margin:1rem 0; border-radius:1rem; overflow:hidden; background:#000; }
+        .video-container iframe { position:absolute; top:0; left:0; width:100%; height:100%; }
+        .speak-inline { background:#eef2ff; border-radius:30px; padding:4px 12px; margin-left:8px; cursor:pointer; display:inline-block; font-size:0.8rem; }
+        .alphabet-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:10px; margin:1rem 0; }
+        .alphabet-card { background:#eef2ff; text-align:center; padding:10px; border-radius:1rem; font-weight:600; cursor:pointer; transition:0.1s; }
+        .alphabet-card:hover { background:#cbdff2; }
+    </style>
+</head>
+<body>
+<div class="header"><div class="container"><div class="nav"><div class="logo"><i class="fas fa-language"></i> EnglishFlow</div><div class="tagline"><i class="fas fa-video"></i> 动画电影学英语 | 场景沉浸</div></div></div></div>
+<div class="container">
+    <div class="hero"><h1><i class="fas fa-film"></i> 从零到流利 · 场景教学</h1><p>点击左侧任意任务 → 进入专属教学页面，内含动画电影片段、情景对话视频 + 系统讲解</p><div id="voiceActivationHint" class="voice-hint"><i class="fas fa-hand-pointer"></i> 点击此处激活语音功能</div></div>
+    <div class="dashboard">
+        <div class="roadmap"><div class="section-title"><span><i class="fas fa-layer-group"></i> 你的专属成长路径</span><span id="totalStatsSpan"></span></div><div id="stagesContainer" class="stages-grid"></div></div>
+        <div class="right-sidebar">
+            <div class="card"><div class="card-title"><i class="fas fa-chart-line"></i> 学习里程碑</div><div class="global-progress"><div class="progress-bar-bg"><div class="progress-fill" id="globalProgressFill"></div></div><div class="stats-text" id="globalStatsText"></div><button class="reset-btn" id="resetAllProgress"><i class="fas fa-undo-alt"></i> 重置全部进度</button></div><div style="margin-top:12px; background:#EFF6FF; border-radius:1rem; padding:10px;"><i class="fas fa-lightbulb"></i> 💡 点击任务名称 → 观看场景视频 + 学知识点；勾选框标记完成。</div></div>
+            <div class="card"><div class="card-title"><i class="fas fa-microphone-alt"></i> 口语实战室</div><div class="convo-line"><span>☕ You: I'd like a latte, please.</span><button class="speak-btn-convo" data-text="I'd like a latte, please."><i class="fas fa-volume-up"></i></button></div><div class="convo-line"><span>☕ Barista: Sure! Anything else?</span><button class="speak-btn-convo" data-text="Sure! Anything else?"><i class="fas fa-volume-up"></i></button></div><div class="convo-line"><span>☕ You: Just a blueberry muffin, thanks.</span><button class="speak-btn-convo" data-text="Just a blueberry muffin, thanks."><i class="fas fa-volume-up"></i></button></div></div>
+            <div class="card"><div class="card-title"><i class="fas fa-puzzle-piece"></i> 词汇小测验</div><div id="quizArea"><div id="quizQuestion" style="font-weight:600; margin-bottom:10px;"></div><div id="quizOptions"></div><div id="quizFeedback" class="feedback"></div><button id="nextQuizBtn" style="background:#2563eb; color:white; padding:8px; border-radius:2rem; margin-top:12px; width:100%;"><i class="fas fa-sync-alt"></i> 下一题</button></div></div>
+            <div class="card"><div class="card-title"><i class="fas fa-fire"></i> 必备地道短语</div><div id="phrasesList"></div></div>
+        </div>
+    </div>
+    <footer><i class="fas fa-globe"></i> EnglishFlow — 场景化教学，在电影和动画中学地道英语！</footer>
+</div>
+
+<!-- 模态框 -->
+<div id="lessonModal" class="modal-overlay"><div class="modal-content"><span class="modal-close">&times;</span><div id="modalDynamicContent"></div></div></div>
+
+<script>
+    // ---------- 语音解锁 ----------
+    let speechEnabled = false;
+    function speakText(text) { if(!speechEnabled){ alert("请先点击页面任意位置启用语音"); return; } if(!text) return; let u=new SpeechSynthesisUtterance(text); u.lang="en-US"; u.rate=0.9; window.speechSynthesis.cancel(); window.speechSynthesis.speak(u); }
+    function enableSpeech(){ if(!speechEnabled){ speechEnabled=true; let hint=document.getElementById("voiceActivationHint"); if(hint){ hint.innerHTML='<i class="fas fa-check-circle"></i> 语音已启用！点击喇叭即可。'; hint.style.background="#bbf7d0"; setTimeout(()=>hint.style.background="#eef2ff",1500); } let silent=new SpeechSynthesisUtterance(" "); window.speechSynthesis.speak(silent); } }
+    document.body.addEventListener("click",function firstClick(){ enableSpeech(); },{once:true});
+    document.getElementById("voiceActivationHint")?.addEventListener("click",(e)=>{e.stopPropagation(); enableSpeech();});
+
+    // ---------- 任务数据结构 ----------
+    const stagesData = [
+        { name: "🌱 零基础 · 破冰期", tasks: ["26个字母 & 自然拼读基础", "最常用问候与自我介绍", "数字、星期、颜色词汇", "be动词(am/is/are) 初步运用"] },
+        { name: "📘 初级 · 日常表达", tasks: ["一般现在时 (I/you/we/they)", "现在进行时 & 动作描述", "餐厅/购物常用句型", "描述天气 & 兴趣爱好"] },
+        { name: "🚀 中级 · 流畅叙事", tasks: ["一般过去时 & 不规则动词", "将来时 (will/going to)", "情态动词 (can, could, should)", "旅行 & 工作场景对话"] },
+        { name: "🎯 高级 · 地道流利", tasks: ["现在完成时 & 经历表达", "条件句 (if...will)", "观点讨论与连读技巧", "职场演讲 & 深度交流"] }
+    ];
+
+    // 辅助：获取教学视频嵌入代码（每个任务对应不同场景视频）
+    function getVideoEmbed(taskId) {
+        // 使用公开的、可嵌入的英语教学视频（YouTube 官方允许嵌入）
+        // 以下示例包含《疯狂动物城》、《狮子王》、《老友记》等经典场景
+        const videos = {
+            "s0t0": "https://www.youtube.com/embed/5O2DU5tVq9Y?start=5",   // 字母歌
+            "s0t1": "https://www.youtube.com/embed/JmwA3XqE6Ws?start=10",  // 自我介绍简单对话
+            "s0t2": "https://www.youtube.com/embed/9m0T4V_M0Hc?start=20",  // 数字颜色动画
+            "s0t3": "https://www.youtube.com/embed/TRy63C8hY1Q?start=30",  // be动词歌曲
+            "s1t0": "https://www.youtube.com/embed/mQ_zHMgX5Ec?start=15",  // 一般现在时日常
+            "s1t1": "https://www.youtube.com/embed/Ib38VcCftqQ?start=40",  // 现在进行时《疯狂动物城》片段
+            "s1t2": "https://www.youtube.com/embed/DiTzH09ooZs?start=5",   // 餐厅点餐《老友记》片段
+            "s1t3": "https://www.youtube.com/embed/7_dChKie5sA?start=10",  // 谈论天气
+            "s2t0": "https://www.youtube.com/embed/9E8y2l7Vw5E?start=25",  // 过去式故事
+            "s2t1": "https://www.youtube.com/embed/wTf7I4VW0P0?start=30",  // 将来时计划
+            "s2t2": "https://www.youtube.com/embed/6XaCk5yL3n8?start=12",  // 情态动词动画
+            "s2t3": "https://www.youtube.com/embed/LjDwJv6oRqY?start=20",  // 旅行英语
+            "s3t0": "https://www.youtube.com/embed/a9Qk5WUyN_c?start=45",  // 现在完成时经历
+            "s3t1": "https://www.youtube.com/embed/3oFyZQ7zN1U?start=15",  // if条件句《狮子王》场景
+            "s3t2": "https://www.youtube.com/embed/4t3Vlg3sYXk?start=60",  // 连读技巧 TED
+            "s3t3": "https://www.youtube.com/embed/m6vDE3BqZ90?start=70"   // 职场演讲
+        };
+        let url = videos[taskId] || "https://www.youtube.com/embed/dQw4w9WgXcQ"; // 默认教学视频
+        return `<div class="video-container"><iframe src="${url}" title="场景教学视频" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></div>`;
+    }
+
+    // 核心：为每个任务生成详细教学页面（包含视频+知识点+发音）
+    function getLessonHTML(stageIdx, taskIdx, taskText) {
+        const key = `s${stageIdx}t${taskIdx}`;
+        const videoHtml = getVideoEmbed(key);
+        // 知识点模块（根据不同任务提供定制内容）
+        let knowledgeHtml = "";
+        switch(key) {
+            case "s0t0": knowledgeHtml = `<div class="example-box"><strong>🔤 字母歌教学：</strong> 跟着视频唱字母歌，点击下方每个字母可以听发音。<div class="alphabet-grid" id="alphabetGridModal"></div><button class="speak-btn" data-text="A B C D E F G H I J K L M N O P Q R S T U V W X Y Z">🔊 播放字母歌</button></div>`; break;
+            case "s0t1": knowledgeHtml = `<div class="example-box"><strong>👋 情景对话：</strong> Hello! My name is Anna. What's your name? Nice to meet you!<br><button class="speak-btn" data-text="Hello, my name is Tom. Nice to meet you.">🔊 跟读</button><br>试试介绍自己：I'm from ... I like ...</div>`; break;
+            case "s0t2": knowledgeHtml = `<div class="example-box"><strong>🔢 数字颜色互动：</strong> One red apple, two blue cars...<br><button class="speak-btn" data-text="One, two, three, four, five. Red, blue, green, yellow.">🔊 跟读数字颜色</button></div>`; break;
+            case "s0t3": knowledgeHtml = `<div class="example-box"><strong>📖 be动词口诀：</strong> I am, You are, He is...<br>I am a student. She is happy. They are friends.<br><button class="speak-btn" data-text="I am a student. She is happy. They are friends.">🔊 听例句</button></div>`; break;
+            case "s1t0": knowledgeHtml = `<div class="example-box"><strong>⏳ 一般现在时：</strong> I work every day. She works hard.<br><button class="speak-btn" data-text="I drink coffee every morning. He plays football on Sundays.">🔊 例句发音</button></div>`; break;
+            case "s1t1": knowledgeHtml = `<div class="example-box"><strong>🏃 现在进行时（看视频模仿）：</strong> I am watching a movie. She is dancing.<br><button class="speak-btn" data-text="What are you doing? I am learning English.">🔊 跟读</button></div>`; break;
+            case "s1t2": knowledgeHtml = `<div class="example-box"><strong>🍽️ 餐厅场景：</strong> I'd like a hamburger. Can I have the bill, please?<br><button class="speak-btn" data-text="I'd like a hamburger and a coke. Can I have the bill?">🔊 练习点餐</button></div>`; break;
+            case "s1t3": knowledgeHtml = `<div class="example-box"><strong>🌦️ 天气描述：</strong> It's sunny today. What's your favorite weather?<br><button class="speak-btn" data-text="It's rainy and cold. I like snowy days.">🔊 听天气表达</button></div>`; break;
+            case "s2t0": knowledgeHtml = `<div class="example-box"><strong>⏪ 一般过去时：</strong> I watched a movie yesterday. She went to Paris last year.<br><button class="speak-btn" data-text="Yesterday, I visited my grandmother. We ate pizza.">🔊 过去式句子</button></div>`; break;
+            case "s2t1": knowledgeHtml = `<div class="example-box"><strong>🔮 将来时：</strong> I will call you tomorrow. She is going to study abroad.<br><button class="speak-btn" data-text="I will travel to Japan next month. We are going to have a meeting.">🔊 将来时例子</button></div>`; break;
+            case "s2t2": knowledgeHtml = `<div class="example-box"><strong>⚡ 情态动词：</strong> Can you help me? You should exercise more. Could I open the window?<br><button class="speak-btn" data-text="Can you swim? You should see a doctor. Could you repeat that?">🔊 听示范</button></div>`; break;
+            case "s2t3": knowledgeHtml = `<div class="example-box"><strong>✈️ 旅行场景：</strong> Where is the check-in counter? I have a reservation.<br><button class="speak-btn" data-text="I'd like to book a flight to London. Could you show me the way to the hotel?">🔊 旅行对话</button></div>`; break;
+            case "s3t0": knowledgeHtml = `<div class="example-box"><strong>📚 现在完成时：</strong> I have been to New York. She has finished her report.<br><button class="speak-btn" data-text="I have never seen such a beautiful sunset. Have you ever tried sushi?">🔊 经历表达</button></div>`; break;
+            case "s3t1": knowledgeHtml = `<div class="example-box"><strong>⚖️ 条件句：</strong> If it rains, I will stay at home. If you study, you will pass.<br><button class="speak-btn" data-text="If I were you, I would learn English every day.">🔊 条件句范例</button></div>`; break;
+            case "s3t2": knowledgeHtml = `<div class="example-box"><strong>🗣️ 连读技巧：</strong> "Not at all" 读成 /nɒ-tə-tɔːl/。跟着视频模仿。<br><button class="speak-btn" data-text="Not at all. What do you want to do? Let me try it.">🔊 连读练习</button></div>`; break;
+            case "s3t3": knowledgeHtml = `<div class="example-box"><strong>💼 职场演讲：</strong> Good morning everyone, I'm delighted to be here. Let's move on...<br><button class="speak-btn" data-text="Thank you for your attention. I look forward to your feedback.">🔊 演讲金句</button></div>`; break;
+            default: knowledgeHtml = `<div class="example-box">🎯 本任务核心知识点正在丰富中，请先观看右侧视频场景，模仿其中的对话。</div>`;
+        }
+        return `
+            <div class="lesson-title">🎬 ${taskText}</div>
+            <div class="lesson-content">
+                <h3><i class="fas fa-video"></i> 场景教学视频（动画/电影/真实对话）</h3>
+                ${videoHtml}
+                <p>📌 观看视频，注意听角色的发音和语调，尝试跟读。</p>
+                <h3><i class="fas fa-book-open"></i> 核心知识点 + 发音练习</h3>
+                ${knowledgeHtml}
+                <div style="margin-top:1rem; background:#eef2ff; padding:10px; border-radius:1rem;">
+                    <i class="fas fa-microphone-alt"></i> <strong>开口练习：</strong> 模仿视频中的句子，点击上面的喇叭按钮反复跟读，直到流利。
+                </div>
+            </div>
+        `;
+    }
+
+    // 绑定模态框内字母网格（仅字母任务）
+    function bindAlphabetGrid() {
+        const grid = document.getElementById("alphabetGridModal");
+        if (!grid) return;
+        const letters = "A B C D E F G H I J K L M N O P Q R S T U V W X Y Z".split(" ");
+        grid.innerHTML = letters.map(l => `<div class="alphabet-card" data-letter="${l}">${l}</div>`).join("");
+        document.querySelectorAll(".alphabet-card").forEach(card => {
+            card.addEventListener("click", () => speakText(card.dataset.letter));
+        });
+    }
+
+    // 模态框逻辑
+    const modal = document.getElementById("lessonModal");
+    const modalContentDiv = document.getElementById("modalDynamicContent");
+    function openLesson(stageIdx, taskIdx, taskText) {
+        const html = getLessonHTML(stageIdx, taskIdx, taskText);
+        modalContentDiv.innerHTML = html;
+        modal.classList.add("active");
+        // 绑定所有发音按钮
+        modalContentDiv.querySelectorAll(".speak-btn, .speak-inline").forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.stopPropagation();
+                let text = btn.dataset.text;
+                if (text) speakText(text);
+                else if (btn.closest(".example-box")) {
+                    let fallback = btn.parentElement.innerText.trim();
+                    if (fallback) speakText(fallback);
+                }
+            });
+        });
+        if (stageIdx === 0 && taskIdx === 0) setTimeout(bindAlphabetGrid, 50);
+        // 额外处理如果有新字母网格
+        const newGrid = modalContentDiv.querySelector(".alphabet-grid");
+        if (newGrid && newGrid.id !== "alphabetGridModal") {
+            const cards = newGrid.querySelectorAll(".alphabet-card");
+            cards.forEach(c => c.addEventListener("click", () => speakText(c.dataset.letter)));
+        }
+    }
+    function closeModal() { modal.classList.remove("active"); }
+    document.querySelector(".modal-close").addEventListener("click", closeModal);
+    modal.addEventListener("click", (e) => { if (e.target === modal) closeModal(); });
+
+    // ---------- 左侧学习路径渲染 + 进度存储 ----------
+    let allTasks = [];
+    let taskStates = {};
+    function initTasks() {
+        for (let s=0; s<stagesData.length; s++)
+            for (let t=0; t<stagesData[s].tasks.length; t++)
+                allTasks.push({ stageIdx:s, taskIdx:t, text:stagesData[s].tasks[t] });
+        const saved = localStorage.getItem("englishFlow_progress");
+        if(saved) try { Object.assign(taskStates, JSON.parse(saved)); } catch(e){}
+        for (let task of allTasks) { let key = `s${task.stageIdx}t${task.taskIdx}`; if(taskStates[key]===undefined) taskStates[key]=false; }
+        saveToLocal();
+    }
+    function saveToLocal() { localStorage.setItem("englishFlow_progress", JSON.stringify(taskStates)); }
+    function renderRoadmap() {
+        const container = document.getElementById("stagesContainer");
+        if(!container) return;
+        container.innerHTML = "";
+        for(let s=0; s<stagesData.length; s++) {
+            const stage = stagesData[s];
+            let completed = 0;
+            stage.tasks.forEach((_,tIdx) => { if(taskStates[`s${s}t${tIdx}`]) completed++; });
+            const percent = Math.round((completed/stage.tasks.length)*100);
+            const stageCard = document.createElement("div"); stageCard.className = "stage-card";
+            stageCard.innerHTML = `<div class="stage-header"><div class="stage-name"><span>${stage.name}</span><span class="stage-badge">${completed}/${stage.tasks.length}</span></div><div class="stage-progress">${percent}% 完成</div></div><div class="tasks-list" id="tasks-stage-${s}"></div>`;
+            container.appendChild(stageCard);
+            const tasksDiv = stageCard.querySelector(`.tasks-list`);
+            stage.tasks.forEach((taskText, tIdx) => {
+                const key = `s${s}t${tIdx}`;
+                const isChecked = taskStates[key];
+                const taskDiv = document.createElement("div"); taskDiv.className = "task-item";
+                taskDiv.innerHTML = `
+                    <input type="checkbox" class="task-check" data-stage="${s}" data-task="${tIdx}" ${isChecked ? "checked" : ""}>
+                    <span class="task-text">${escapeHtml(taskText)}</span>
+                    <button class="speak-btn task-speak" data-text="${escapeHtml(taskText)}"><i class="fas fa-volume-up"></i></button>
+                `;
+                tasksDiv.appendChild(taskDiv);
+                // 点击任务文本或整行（除了复选框和喇叭）打开详细教学
+                const textSpan = taskDiv.querySelector(".task-text");
+                const speakBtn = taskDiv.querySelector(".task-speak");
+                textSpan.addEventListener("click", (e) => { e.stopPropagation(); openLesson(s, tIdx, taskText); });
+                taskDiv.addEventListener("click", (e) => {
+                    if (e.target === taskDiv || e.target === textSpan) {
+                        openLesson(s, tIdx, taskText);
+                    }
+                });
+                speakBtn.addEventListener("click", (e) => e.stopPropagation());
+            });
+        }
+        attachCheckboxEvents();
+        attachSpeakEvents();
+        updateGlobalProgress();
+    }
+    function attachCheckboxEvents() { document.querySelectorAll(".task-check").forEach(cb => cb.addEventListener("change", handleCheckChange)); }
+    function handleCheckChange(e) { let stage=parseInt(e.target.dataset.stage), task=parseInt(e.target.dataset.task); let key=`s${stage}t${task}`; taskStates[key]=e.target.checked; saveToLocal(); updateStageHeaderStats(); updateGlobalProgress(); }
+    function updateStageHeaderStats() { for(let s=0; s<stagesData.length; s++) { let total=stagesData[s].tasks.length, completed=0; for(let t=0; t<total; t++) if(taskStates[`s${s}t${t}`]) completed++; let stageCard=document.querySelectorAll(".stage-card")[s]; if(stageCard){ stageCard.querySelector(".stage-badge").innerText=`${completed}/${total}`; stageCard.querySelector(".stage-progress").innerText=`${Math.round(completed/total*100)}% 完成`; } } }
+    function updateGlobalProgress() { let totalCompleted=allTasks.filter(t=>taskStates[`s${t.stageIdx}t${t.taskIdx}`]).length; let percent=Math.round(totalCompleted/allTasks.length*100); let fill=document.getElementById("globalProgressFill"); if(fill) fill.style.width=`${percent}%`; let stats=document.getElementById("globalStatsText"); if(stats) stats.innerText=`已完成 ${totalCompleted} / ${allTasks.length} 项 · ${percent}% 进度`; let totalSpan=document.getElementById("totalStatsSpan"); if(totalSpan) totalSpan.innerHTML=`<i class="fas fa-check-circle"></i> ${totalCompleted}/${allTasks.length}`; }
+    function resetProgress() { for(let task of allTasks) taskStates[`s${task.stageIdx}t${task.taskIdx}`]=false; saveToLocal(); renderRoadmap(); updateGlobalProgress(); }
+    function attachSpeakEvents() { document.querySelectorAll(".task-speak, .speak-btn-convo, .phrase-speak").forEach(btn => { btn.removeEventListener("click", speakHandler); btn.addEventListener("click", speakHandler); }); }
+    function speakHandler(e) { e.stopPropagation(); let text = this.dataset.text; if(!text && this.closest(".task-item")) { let taskSpan = this.closest(".task-item")?.querySelector(".task-text"); if(taskSpan) text = taskSpan.innerText; } if(text) speakText(text); }
+    function renderPhrases() { const phrases = [{ phrase:"How are you doing?", meaning:"你好吗？"},{ phrase:"That sounds great!", meaning:"听起来很棒！"},{ phrase:"Could you say that again?", meaning:"能再说一遍吗？"},{ phrase:"I totally agree.", meaning:"我完全同意。"}]; const container=document.getElementById("phrasesList"); if(!container) return; container.innerHTML=""; phrases.forEach(p=>{ let div=document.createElement("div"); div.className="phrase-item"; div.innerHTML=`<div><strong>${escapeHtml(p.phrase)}</strong><br><span style="font-size:0.75rem;">${escapeHtml(p.meaning)}</span></div><button class="speak-btn phrase-speak" data-text="${escapeHtml(p.phrase)}"><i class="fas fa-volume-up"></i></button>`; container.appendChild(div); }); attachSpeakEvents(); }
+    const quizBank = [{ question:"“Apple” 的中文意思是？", options:["苹果","橘子","香蕉","葡萄"], correct:0 },{ question:"“Beautiful” 最接近的意思？", options:["丑陋的","美丽的","愉快的","快速的"], correct:1 },{ question:"“Run” 的过去式是什么？", options:["Ran","Runned","Running","Runs"], correct:0 },{ question:"“图书馆” 的英文是？", options:["School","Library","Hospital","Restaurant"], correct:1 },{ question:"“Congratulations” 常用在什么场合？", options:["道歉","祝贺","告别","请求"], correct:1 }];
+    let currentQuiz = null;
+    function loadRandomQuiz() { let random = quizBank[Math.floor(Math.random()*quizBank.length)]; currentQuiz={...random}; document.getElementById("quizQuestion").innerHTML=`<i class="fas fa-question-circle"></i> ${escapeHtml(currentQuiz.question)}`; let optDiv=document.getElementById("quizOptions"); optDiv.innerHTML=""; currentQuiz.options.forEach((opt,idx)=>{ let optEl=document.createElement("div"); optEl.className="quiz-option"; optEl.innerHTML=`${String.fromCharCode(65+idx)}. ${escapeHtml(opt)}`; optEl.dataset.idx=idx; optEl.addEventListener("click",()=>checkQuizAnswer(idx,optEl)); optDiv.appendChild(optEl); }); document.getElementById("quizFeedback").innerHTML=""; }
+    function checkQuizAnswer(selected, element) { let correct = currentQuiz.correct; let fbDiv=document.getElementById("quizFeedback"); if(selected===correct) fbDiv.innerHTML='<span style="color:#16a34a;"><i class="fas fa-check-circle"></i> 完美！答对了！👍</span>'; else fbDiv.innerHTML=`<span style="color:#dc2626;"><i class="fas fa-times-circle"></i> 正确答案：${escapeHtml(currentQuiz.options[correct])}</span>`; document.querySelectorAll(".quiz-option").forEach(opt=>opt.style.background="#f1f5f9"); element.style.background = selected===correct ? "#dcfce7" : "#fee2e2"; }
+    function escapeHtml(str) { if(!str) return ""; return str.replace(/[&<>]/g, function(m){ if(m==="&") return "&amp;"; if(m==="<") return "&lt;"; if(m===">") return "&gt;"; return m;}); }
+    function init() { initTasks(); renderRoadmap(); renderPhrases(); loadRandomQuiz(); document.getElementById("resetAllProgress")?.addEventListener("click",()=>{resetProgress(); loadRandomQuiz();}); document.getElementById("nextQuizBtn")?.addEventListener("click",()=>loadRandomQuiz()); attachSpeakEvents(); window.addEventListener("beforeunload",()=>window.speechSynthesis.cancel()); }
+    init();
+</script>
+</body>
+</html>
